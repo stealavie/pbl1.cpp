@@ -1,9 +1,6 @@
-
 #include <stdio.h>
 #include <stdlib.h>
-
-#define M 10
-#define N 10
+#include<limits.h>
 
 typedef struct node {
     int i;
@@ -37,7 +34,7 @@ void heapify(Node heap[], int n, int i) {
 }
 
 void push(Node heap[], int *n, Node newNode) {
-    if (*n == M * N) {
+    if (*n == INT_MAX) {
         return;
     }
 
@@ -65,8 +62,8 @@ Node pop(Node heap[], int *n) {
     return root;
 }
 
-void leastCost(int cost[M][N], int supply[M], int demand[N], int m, int n) {
-    Node heap[M * N];
+void leastCost(int **cost, int *supply, int *demand, int m, int n) {
+    Node heap[m*n];
     int size = 0;
 
     for (int i = 0; i < m; i++) {
@@ -97,14 +94,68 @@ printf("DUONG DI TOI UU SU DUNG PHUONG PHAP CUOC PHI NHO NHAT:\n");
 }
 //O(m*n*log(m*n)
 int main() {
-    int cost[M][N] = {{19, 30, 50, 10},
-                      {70, 30, 40, 60},
-                      {40, 8, 70, 20}};
-    int supply[M] = {7, 9, 18};
-    int demand[N] = {5, 8, 7, 14};
+     while(1)
+		{
+        	printf ("-----------------------------------\n");
+        	printf ("1.Doc tu file\n");
+        	printf ("2.Nhap tu ban phim\n");
+        	printf("nhap lua chon cua ban\n");
+        	printf ("-----------------------------------\n");
+        	int lc;scanf ("%d",&lc);
+        	if (lc==2)
+			{
+        	printf ("NHAP SO DIEM CUNG VA CAU:\n");
+			int m,n;scanf ("%d%d",&m,&n);
+        	printf ("nhap ma tran cuoc phi\n");
+        	int **cost;
+	        cost=(int **)malloc(m * sizeof(int *));
+            for (int i=0; i<m; i++)
+               cost[i] = (int *)malloc(n * sizeof(int));
+            for (int i = 0; i <  m; i++)
+		 {
+                for (int j = 0; j < n; j++)
+                   scanf ("%d",&cost[i][j]);
+    }  
+            printf ("nhap so luong cung");
+            int *supply;
+            supply = (int *)malloc(m * sizeof(int));
+            for (int i=0; i<m; i++) scanf("%d",&supply[i]);
+            printf ("nhap so luong cau"); 
+			int *demand;
+            demand = (int *)malloc(n * sizeof(int));
+            for (int i=0; i<n; i++) scanf("%d",&demand[i]);
+			leastCost(cost,supply,demand,m,n);
+		}
+		else if (lc==1){
+	    	  char filename[100];
+//    printf("Nhap ten tep tin: ");
+//    scanf("%s", filename);
 
-    leastCost(cost, supply, demand, 3, 4);
+    FILE *file = fopen("D:/New folder/in.in", "r");
+    if (file == NULL)
+    {
+        printf("Khong the mo tep tin %s\n", filename);
+        exit(1);
+    }
 
+      int  m,n;
+    fscanf(file,"%d%d",&m,&n);
+     int **cost;
+	        cost=(int **)malloc(m * sizeof(int *));
+            for (int i=0; i<m; i++)
+               cost[i] = (int *)malloc(n * sizeof(int));
+        for (int i=0;i<m;i++)
+        {
+        	for (int j=0;j<n;j++) fscanf (file,"%d",&cost[i][j]);
+		}
+		 int *supply;
+            supply = (int *)malloc(m * sizeof(int));
+		for (int i=0;i<m;i++) fscanf (file,"%d",&supply[i]);
+		 int *demand;
+            demand = (int *)malloc(n * sizeof(int));
+		for (int j=0;j<n;j++) fscanf (file,"%d",&demand[j]);
+		leastCost(cost,supply,demand,m,n);
+	}
+	}
     return 0;
 }
-
