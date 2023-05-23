@@ -1,6 +1,9 @@
 # pbl1.cpp
 \\ham leastCost
 \\cach 1: tim kiem tham lam su dung ma tran
+
+
+
 FUNCTION leastCost(cost[][], supply[], demand[], m, n)
     minCost = 0
     alloc[m][n] = {0}
