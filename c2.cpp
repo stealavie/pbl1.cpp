@@ -65,7 +65,6 @@ Node pop(Node heap[], int *n) {
 void leastCost(int **cost, int *supply, int *demand, int m, int n) {
     Node heap[m*n];
     int size = 0;
-
     for (int i = 0; i < m; i++) {
         for (int j = 0; j < n; j++) {
             if (cost[i][j] != -1) {
@@ -73,68 +72,72 @@ void leastCost(int **cost, int *supply, int *demand, int m, int n) {
             }
         }
     }
-
     int totalCost = 0;
-printf("DUONG DI TOI UU SU DUNG PHUONG PHAP CUOC PHI NHO NHAT:\n");
+    printf("\nDUONG DI TOI UU SU DUNG PHUONG PHAP CUOC PHI NHO NHAT:\n\n");
+    int t=1;
     while (size > 0) {
         Node temp = pop(heap, &size);
-
         if (supply[temp.i] > 0 && demand[temp.j] > 0) {
             int x = supply[temp.i] < demand[temp.j] ? supply[temp.i] : demand[temp.j];
             totalCost += x * temp.cost;
-
             supply[temp.i] -= x;
             demand[temp.j] -= x;
-
-            printf("x[%d][%d] = %d\n", temp.i + 1, temp.j + 1, x);
+                printf("THU %d: ",t);
+            	printf(" VAN CHUYEN %d TAN HANG TU DIEM CUNG CAP %d DEN DIEM NHAN %d",x,temp.i + 1,temp.j + 1);
+            	printf(" VOI CHI PHI DI CHUYEN LA: %d\n",x*temp.cost);
+            	t++;
         }
     }
-
-    printf("Total cost: %d\n", totalCost);
+    printf("\t\t---------TONG CHI PHI SAU CUNG LA:%d---------\n", totalCost);
 }
 //O(m*n*log(m*n)
 int main() {
      while(1)
 		{
+        	printf("\t\t\t\tDO AN LAP TRINH TINH TOAN\n\n");
+			printf("\t\t\t\t----BAI TOAN VAN TAI-----\n");
         	printf ("-----------------------------------\n");
+        	printf("nhap lua chon cua ban\n");
         	printf ("1.Doc tu file\n");
         	printf ("2.Nhap tu ban phim\n");
-        	printf("nhap lua chon cua ban\n");
+        	printf ("3.Ket thuc chuong trinh\n");
         	printf ("-----------------------------------\n");
         	int lc;scanf ("%d",&lc);
         	if (lc==2)
 			{
-        	printf ("NHAP SO DIEM CUNG VA CAU:\n");
-			int m,n;scanf ("%d%d",&m,&n);
-        	printf ("nhap ma tran cuoc phi\n");
+        	printf ("NHAP SO LUONG DIEM CUNG CAP:");
+			int m,n;
+			scanf ("%d",&m);
+			int *supply;
+            supply = (int *)malloc(m * sizeof(int));
+            for (int i=0;i<m;i++){
+            	printf("\nLUONG HANG O DIEM CUNG CAP %d: ",i+1); scanf ("%d",&supply[i]);
+			}
+			printf ("\nNHAP SO LUONG DIEM NHAN HANG:");
+			scanf ("%d",&n);
+			int *demand;
+            demand = (int *)malloc(n * sizeof(int));
+            for (int i=0;i<n;i++){
+            	printf("\nLUONG HANG CAN CUNG CAP O DIEM NHAN %d: ",i+1); scanf ("%d",&demand[i]);
+			}
         	int **cost;
 	        cost=(int **)malloc(m * sizeof(int *));
             for (int i=0; i<m; i++)
                cost[i] = (int *)malloc(n * sizeof(int));
-            for (int i = 0; i <  m; i++)
-		 {
-                for (int j = 0; j < n; j++)
-                   scanf ("%d",&cost[i][j]);
+            for (int i = 0; i <  m; i++){
+                for (int j = 0; j < n; j++){
+                	printf("\nCUOC PHI GIUA DIEM CUNG CAP %d VA DIEM NHAN HANG %d: ",i+1,j+1);
+                	scanf("%d",&cost[i][j]);
+				}                  
     }  
-            printf ("nhap so luong cung");
-            int *supply;
-            supply = (int *)malloc(m * sizeof(int));
-            for (int i=0; i<m; i++) scanf("%d",&supply[i]);
-            printf ("nhap so luong cau"); 
-			int *demand;
-            demand = (int *)malloc(n * sizeof(int));
-            for (int i=0; i<n; i++) scanf("%d",&demand[i]);
 			leastCost(cost,supply,demand,m,n);
+			printf("\n\n");
 		}
 		else if (lc==1){
-	    	  char filename[100];
-//    printf("Nhap ten tep tin: ");
-//    scanf("%s", filename);
-
     FILE *file = fopen("D:/New folder/in.in", "r");
     if (file == NULL)
     {
-        printf("Khong the mo tep tin %s\n", filename);
+        printf("KHONG THE MO TEP TIN\n");
         exit(1);
     }
 
@@ -154,8 +157,23 @@ int main() {
 		 int *demand;
             demand = (int *)malloc(n * sizeof(int));
 		for (int j=0;j<n;j++) fscanf (file,"%d",&demand[j]);
+		printf("CO %d DIA DIEM CUNG CAP VA SO LUONG HANG HOA O TUNG DIA DIEM LA: ",m);
+		for (int i=0;i<m;i++){
+			printf("%d ",supply[i]);
+		}
+		printf("\nCO %d DIA DIEM NHAN VA SO LUONG HANG HOA CAN CUNG CAP O TUNG DIA DIEM LA: ",n);
+		for (int i=0;i<n;i++){
+			printf("%d ",demand[i]);
+		}
+		printf("\nCUOC PHI GIUA CAC DIA DIEM LA:\n");
+		for(int i=0;i<m;i++){
+			for (int j=0;j<n;j++)
+			printf("DIEM CUNG %d VA DIEM NHAN %d: %d\n",i+1,j+1,cost[i][j]);
+		}
 		leastCost(cost,supply,demand,m,n);
+		printf("\n\n");
 	}
+	else if(lc==3) break;
 	}
     return 0;
 }
